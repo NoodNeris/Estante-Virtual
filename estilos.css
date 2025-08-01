@@ -1,0 +1,94 @@
+/* Estilos Gerais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+header, footer {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+h2 {
+    color: #34495e;
+    border-bottom: 2px solid #bdc3c7;
+    padding-bottom: 10px;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Grid para exibir os itens */
+.grid-midia {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+/* Cartão de cada item (livro ou jogo) */
+.card-midia {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card-midia:hover {
+    transform: translateY(-5px);
+}
+
+.card-midia img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.card-midia .info {
+    padding: 15px;
+}
+
+.card-midia h3 {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.card-midia p {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin: 5px 0;
+}
+
+/* Estilo para o status */
+.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 10px;
+}
+
+/* Cores diferentes para cada status */
+.status.lido, .status.finalizado {
+    background-color: #27ae60; /* Verde */
+}
+
+.status.lendo, .status.jogando {
+    background-color: #2980b9; /* Azul */
+}
+
+.status.quero-ler, .status.quero-jogar {
+    background-color: #8e44ad; /* Roxo */
+}
