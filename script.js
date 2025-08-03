@@ -2,12 +2,13 @@
 //        CONFIGURAÇÃO DO SEU FIREBASE (INSIRA A SUA)
 // =================================================================
 const firebaseConfig = {
-    // COLE SUA CONFIGURAÇÃO AQUI
+  apiKey: "AIzaSyDm5zTPU_paYGTRPK6ynatFN9RzxY0Aey8",
+  authDomain: "estante-nood.firebaseapp.com",
+  projectId: "estante-nood",
+  storageBucket: "estante-nood.firebasestorage.app",
+  messagingSenderId: "578043131348",
+  appId: "1:578043131348:web:fec4056a6140723f705241"
 };
-
-// =================================================================
-//         O RESTO DO CÓDIGO FAZ A MÁGICA ACONTECER
-// =================================================================
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
