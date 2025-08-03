@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estante Nood</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@700&family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">ESTANTE NOOD</div>
+        <div id="auth-container">
+            <button id="login-btn" title="Fazer Login"><i class="fa-solid fa-right-to-bracket"></i></button>
+            <div id="user-info" class="hidden">
+                <img id="user-photo" src="https://i.pinimg.com/736x/ae/3b/32/ae3b3217481f9d1ba3e60f18b8c4a83b.jpg" alt="Foto do Billy">
+                <button id="logout-btn" title="Sair"><i class="fa-solid fa-right-from-bracket"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <aside class="sidebar">
+            <div class="filter-group">
+                <h4>Filtros</h4>
+                <div class="filter-option">
+                    <input type="checkbox" id="filter-lido" data-status="Lido">
+                    <label for="filter-lido">Lido</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="filter-lendo" data-status="Lendo">
+                    <label for="filter-lendo">Lendo</label>
+                </div>
+                <div class="filter-option">
+                    <input type="checkbox" id="filter-finalizado" data-status="Finalizado">
+                    <label for="filter-finalizado">Finalizado</label>
+                </div>
+                 <div class="filter-option">
+                    <input type="checkbox" id="filter-jogando" data-status="Jogando">
+                    <label for="filter-jogando">Jogando</label>
+                </div>
+            </div>
+            <div class="filter-group">
+                <h4>Ordenar</h4>
+                 <div class="filter-option">
+                    <input type="radio" id="sort-titulo" name="sort" value="titulo" checked>
+                    <label for="sort-titulo">Título (A-Z)</label>
+                </div>
+                <div class="filter-option">
+                    <input type="radio" id="sort-nota" name="sort" value="nota">
+                    <label for="sort-nota">Nota (Maior)</label>
+                </div>
+            </div>
+             <div id="admin-controls" class="hidden">
+                <button id="add-item-btn"><i class="fa-solid fa-plus"></i> Adicionar Item</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section id="livros">
+                <h2><i class="fa-solid fa-book"></i> Livros</h2>
+                <div id="lista-livros" class="grid-midia"></div>
+            </section>
+    
+            <section id="jogos">
+                <h2><i class="fa-solid fa-gamepad"></i> Jogos</h2>
+                <div id="lista-jogos" class="grid-midia"></div>
+            </section>
+        </main>
+    </div>
+    
+    <div id="item-modal" class="modal-container">
+        <div class="modal-content">
+            <h3 id="modal-title">Adicionar Novo Item</h3>
+            <form id="item-form">
+                <input type="hidden" id="item-id">
+                 <div class="form-group">
+                    <label for="item-tipo">Tipo</label>
+                    <select id="item-tipo" required><option value="livro">Livro</option><option value="jogo">Jogo</option></select>
+                </div>
+                <div class="form-group">
+                    <label for="item-titulo">Título</label>
+                    <input type="text" id="item-titulo" required>
+                </div>
+                <div class="form-group">
+                    <label for="item-autor-plataforma">Autor / Plataforma</label>
+                    <input type="text" id="item-autor-plataforma" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="item-genero">Gênero(s)</label><input type="text" id="item-genero"></div>
+                    <div class="form-group"><label for="item-nota">Nota</label><select id="item-nota" required></select></div>
+                </div>
+                 <div class="form-group">
+                    <label for="item-status">Status</label>
+                    <select id="item-status" required>
+                        <option>Lido</option><option>Lendo</option><option>Quero Ler</option>
+                        <option>Finalizado</option><option>Jogando</option><option>Quero Jogar</option>
+                    </select>
+                </div>
+                <div class="form-group"><label for="item-imagem">URL da Capa</label><input type="url" id="item-imagem" required></div>
+                <div class="form-group"><label for="item-review">Review</label><textarea id="item-review"></textarea></div>
+                <div class="form-buttons">
+                    <button type="button" id="delete-btn" class="btn-danger hidden">Deletar</button>
+                    <button type="button" id="cancel-btn" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="details-modal" class="modal-container">
+        <div class="modal-details">
+            <button id="details-close-btn" class="close-button">&times;</button>
+            <div class="details-content">
+                <img id="details-img" src="" alt="Capa">
+                <div class="details-info">
+                    <h2 id="details-title"></h2>
+                    <p id="details-author"></p>
+                    <div class="details-meta">
+                        <span id="details-status" class="status"></span>
+                        <span id="details-nota" class="nota"></span>
+                    </div>
+                    <p id="details-genero"></p>
+                    <div class="review-section">
+                        <h3>Review</h3>
+                        <p id="details-review"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
