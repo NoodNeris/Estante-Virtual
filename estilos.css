@@ -1,0 +1,223 @@
+/* --- GERAL & FONTES --- */
+:root {
+    --cor-fundo: #1a1a2e; /* Azul noite profundo */
+    --cor-superficie: #16213e; /* Azul mais escuro */
+    --cor-borda: #0f3460;
+    --cor-texto-principal: #e94560; /* Rosa/vermelho vibrante */
+    --cor-texto-secundario: #a8a8a8;
+    --cor-acento: #8a2be2; /* Roxo/violeta místico */
+    --fonte-titulo: 'Cormorant Garamond', serif;
+    --fonte-corpo: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    font-family: var(--fonte-corpo);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* --- CABEÇALHO --- */
+.main-header {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--cor-borda);
+    background-color: rgba(22, 33, 62, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-family: var(--fonte-titulo);
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#auth-container button {
+    background-color: transparent;
+    border: 1px solid var(--cor-acento);
+    color: var(--cor-acento);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#auth-container button:hover {
+    background-color: var(--cor-acento);
+    color: #fff;
+}
+
+#user-info {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+}
+
+#user-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--cor-acento);
+}
+
+#logout-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 0;
+    font-size: 1.1rem;
+}
+
+/* --- CONTEÚDO PRINCIPAL --- */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.collection-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.collection-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+#add-item-btn {
+    background-color: var(--cor-acento);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+section {
+    margin-bottom: 3rem;
+}
+
+section h2 {
+    font-size: 2rem;
+    border-bottom: 1px solid var(--cor-borda);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.grid-midia {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+}
+
+.card-midia {
+    background-color: var(--cor-superficie);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid var(--cor-borda);
+    cursor: pointer;
+}
+
+.card-midia:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    border-color: var(--cor-acento);
+}
+
+.card-midia img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 1rem;
+}
+
+.card-info h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-info p {
+    font-size: 0.9rem;
+    color: var(--cor-texto-secundario);
+    margin: 0;
+}
+
+.card-footer {
+    padding: 0 1rem 1rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nota {
+    color: var(--cor-texto-principal);
+}
+
+.status {
+    background-color: rgba(233, 69, 96, 0.2);
+    color: var(--cor-texto-principal);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.edit-icon {
+    position: absolute;
+    top: 0.75rem; right: 0.75rem;
+    /* ... (Estilos do ícone de edição mantidos) */
+}
+
+/* --- MODAIS --- */
+.modal-container {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(10, 10, 20, 0.7);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content, .modal-details {
+    background-color: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+}
+/* ... (Resto dos estilos dos modais adaptados para as novas cores) ... */
+
+.close-button {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: none; border: none;
+    color: var(--cor-texto-secundario);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+/* ... (Estilos dos formulários adaptados) ... */
