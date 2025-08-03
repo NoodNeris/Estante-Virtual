@@ -1,0 +1,137 @@
+body {
+  margin: 0;
+  font-family: 'Arial Black', sans-serif;
+  background: #f3f3f3 url('https://www.transparenttextures.com/patterns/rocky-wall.png');
+  color: #111;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.logo {
+  font-size: 1.8em;
+  font-weight: 900;
+}
+
+.nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: crimson;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 40px;
+  background: #fff;
+}
+
+.hero-text {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 4em;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.hero-buttons .btn {
+  display: inline-block;
+  padding: 15px 25px;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #fff;
+  background: crimson;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.hero-buttons .btn-dark {
+  background: #111;
+}
+
+.hero-buttons .btn:hover {
+  background: #333;
+}
+
+.hero-img img {
+  max-width: 400px;
+  border-radius: 10px;
+}
+
+.collection {
+  padding: 60px 40px;
+  background: #fff;
+}
+
+.collection h2 {
+  font-size: 3em;
+  margin-bottom: 40px;
+}
+
+.grid-midia {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 30px;
+}
+
+.card-midia {
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.card-midia:hover {
+  transform: translateY(-10px);
+}
+
+.card-midia img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.card-midia .info {
+  padding: 20px;
+}
+
+.status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: crimson;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 0.9em;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9em;
+  background: #111;
+  color: #eee;
+}
