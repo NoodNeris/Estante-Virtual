@@ -3,9 +3,9 @@
 // =================================================================
 const firebaseConfig = {
   apiKey: "AIzaSyDm5zTPU_paYGTRPK6ynatFN9RzxY0Aey8",
-  authDomain: "estante-nood.firebaseapp.com",
-  projectId: "estante-nood",
-  storageBucket: "estante-nood.firebasestorage.app",
+  authDomain: "estante-virtual.firebaseapp.com",
+  projectId: "estante-virtual",
+  storageBucket: "estante-virtual.firebasestorage.app",
   messagingSenderId: "578043131348",
   appId: "1:578043131348:web:fec4056a6140723f705241"
 };
@@ -241,4 +241,5 @@ document.getElementById('delete-btn').addEventListener('click', () => {
     if (confirm("Tem certeza que deseja deletar este item?")) {
         db.collection("itens").doc(id).delete().then(() => fecharModal(itemModal));
     }
+
 });
