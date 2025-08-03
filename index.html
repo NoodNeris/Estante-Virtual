@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estante Nood</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">NOOD</div>
+        <nav>
+            <div id="auth-container">
+                <button id="login-btn">Login</button>
+                <div id="user-info" class="hidden">
+                    <img id="user-photo" src="https://i.pinimg.com/736x/ae/3b/32/ae3b3217481f9d1ba3e60f18b8c4a83b.jpg" alt="Foto do Billy">
+                    <button id="logout-btn">Sair</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero-section">
+        <div class="hero-image"></div>
+        <div class="hero-text">
+            <h1>Uma Coleção Pessoal</h1>
+            <p>Livros lidos, jogos finalizados e outras jornadas.</p>
+        </div>
+    </div>
+
+    <main>
+        <div class="collection-header">
+            <h2>MINHA COLEÇÃO</h2>
+            <div id="admin-controls" class="hidden">
+                <button id="add-item-btn"><i class="fa-solid fa-plus"></i> Adicionar Item</button>
+            </div>
+        </div>
+        
+        <div id="collection-grid" class="grid-midia">
+            </div>
+    </main>
+    
+    <div id="item-modal" class="modal-container">
+        </div>
+
+    <div id="details-modal" class="modal-container">
+        </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
