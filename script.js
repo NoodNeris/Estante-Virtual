@@ -1,21 +1,13 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// =================================================================
+//        CONFIGURAÇÃO DO SEU FIREBASE (INSIRA A SUA)
+// =================================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyDm5zTPU_paYGTRPK6ynatFN9RzxY0Aey8",
-  authDomain: "estante-nood.firebaseapp.com",
-  projectId: "estante-nood",
-  storageBucket: "estante-nood.firebasestorage.app",
-  messagingSenderId: "578043131348",
-  appId: "1:578043131348:web:fec4056a6140723f705241"
+    // COLE SUA CONFIGURAÇÃO AQUI
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Inicializar o Firebase
+// =================================================================
+//         O RESTO DO CÓDIGO FAZ A MÁGICA ACONTECER
+// =================================================================
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -23,18 +15,16 @@ const auth = firebase.auth();
 // Elementos do HTML
 const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logout-btn');
-const authContainer = document.getElementById('auth-container');
 const userInfo = document.getElementById('user-info');
-const userEmail = document.getElementById('user-email');
 const adminControls = document.getElementById('admin-controls');
 const addItemBtn = document.getElementById('add-item-btn');
-const modal = document.getElementById('item-modal');
-const modalTitle = document.getElementById('modal-title');
-const cancelBtn = document.getElementById('cancel-btn');
-const deleteBtn = document.getElementById('delete-btn');
-const itemForm = document.getElementById('item-form');
 const listaLivros = document.getElementById('lista-livros');
 const listaJogos = document.getElementById('lista-jogos');
+const itemModal = document.getElementById('item-modal');
+const itemForm = document.getElementById('item-form');
+const detailsModal = document.getElementById('details-modal');
+const detailsCloseBtn = document.getElementById('details-close-btn');
+const notaSelect = document.getElementById('item-nota');
 
 let currentUser = null;
 
@@ -42,149 +32,173 @@ let currentUser = null;
 auth.onAuthStateChanged(user => {
     currentUser = user;
     if (user) {
-        // Usuário está logado
-        loginBtn.classList.add('hidden');
-        userInfo.classList.remove('hidden');
-        adminControls.classList.remove('hidden');
-        userEmail.textContent = user.email;
-        carregarItens();
+        loginBtn.style.display = 'none';
+        userInfo.style.display = 'flex';
+        adminControls.style.display = 'block';
     } else {
-        // Usuário não está logado
-        loginBtn.classList.remove('hidden');
-        userInfo.classList.add('hidden');
-        adminControls.classList.add('hidden');
-        carregarItens(); // Carrega os itens em modo "visitante"
+        loginBtn.style.display = 'block';
+        userInfo.style.display = 'none';
+        adminControls.style.display = 'none';
     }
+    carregarItens();
 });
 
 loginBtn.addEventListener('click', () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+    auth.signInWithPopup(provider).catch(console.error);
 });
 
-logoutBtn.addEventListener('click', () => {
-    auth.signOut();
-});
+logoutBtn.addEventListener('click', () => auth.signOut());
 
+// --- LÓGICA DOS MODAIS ---
+function abrirModal(modalElement) {
+    modalElement.style.display = 'flex';
+}
 
-// --- LÓGICA DO MODAL (PAINEL) ---
-function abrirModal(item = null) {
+function fecharModal(modalElement) {
+    modalElement.style.display = 'none';
+}
+
+// --- LÓGICA DO MODAL DE EDIÇÃO ---
+function popularNotas() {
+    notaSelect.innerHTML = '<option value="0">Sem Nota</option>';
+    for (let i = 1; i <= 5; i += 0.5) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        notaSelect.appendChild(option);
+    }
+}
+popularNotas();
+
+function abrirModalEdicao(item = null) {
     itemForm.reset();
     if (item) {
-        // Modo Edição
-        modalTitle.textContent = "Editar Item";
+        document.getElementById('modal-title').textContent = "Editar Item";
         document.getElementById('item-id').value = item.id;
         document.getElementById('item-tipo').value = item.tipo;
+        document.getElementById('item-status').value = item.status;
         document.getElementById('item-titulo').value = item.titulo;
         document.getElementById('item-autor-plataforma').value = item.autor_plataforma;
         document.getElementById('item-genero').value = item.genero;
-        document.getElementById('item-imagem').value = item.imagem;
-        document.getElementById('item-status').value = item.status;
         document.getElementById('item-nota').value = item.nota;
+        document.getElementById('item-imagem').value = item.imagem;
         document.getElementById('item-review').value = item.review;
-        deleteBtn.classList.remove('hidden');
+        document.getElementById('delete-btn').classList.remove('hidden');
     } else {
-        // Modo Adição
-        modalTitle.textContent = "Adicionar Novo Item";
-        document.getElementById('item-id').value = '';
-        deleteBtn.classList.add('hidden');
+        document.getElementById('modal-title').textContent = "Adicionar Novo Item";
+        document.getElementById('delete-btn').classList.add('hidden');
     }
-    modal.classList.remove('hidden');
+    abrirModal(itemModal);
 }
 
-function fecharModal() {
-    modal.classList.add('hidden');
+addItemBtn.addEventListener('click', () => abrirModalEdicao());
+document.getElementById('cancel-btn').addEventListener('click', () => fecharModal(itemModal));
+
+// --- LÓGICA DO MODAL DE DETALHES ---
+function formatarEstrelas(nota) {
+    const notaValor = parseFloat(nota) || 0;
+    if (notaValor === 0) return 'Sem nota';
+    let estrelas = '';
+    for (let i = 1; i <= 5; i++) {
+        if (notaValor >= i) estrelas += '★';
+        else if (notaValor >= i - 0.5) estrelas += '½';
+        else estrelas += '☆';
+    }
+    return estrelas;
 }
 
-addItemBtn.addEventListener('click', () => abrirModal());
-cancelBtn.addEventListener('click', fecharModal);
+function abrirModalDetalhes(item) {
+    document.getElementById('details-img').src = item.imagem;
+    document.getElementById('details-title').textContent = item.titulo;
+    document.getElementById('details-author').textContent = item.autor_plataforma;
+    document.getElementById('details-status').textContent = item.status;
+    document.getElementById('details-nota').textContent = formatarEstrelas(item.nota);
+    document.getElementById('details-genero').textContent = `Gênero(s): ${item.genero || 'Não informado'}`;
+    document.getElementById('details-review').textContent = item.review || 'Nenhuma review foi escrita para este item.';
+    abrirModal(detailsModal);
+}
 
+detailsCloseBtn.addEventListener('click', () => fecharModal(detailsModal));
 
-// --- LÓGICA DO BANCO DE DADOS (CRUD: Create, Read, Update, Delete) ---
-
-// 1. READ (Ler e exibir os itens)
+// --- LÓGICA DO BANCO DE DADOS (CRUD) ---
 function carregarItens() {
     db.collection("itens").orderBy("titulo").onSnapshot(snapshot => {
         listaLivros.innerHTML = '';
         listaJogos.innerHTML = '';
+        if (snapshot.empty) {
+            listaLivros.innerHTML = '<p>Nenhum livro adicionado.</p>';
+            listaJogos.innerHTML = '<p>Nenhum jogo adicionado.</p>';
+        }
         snapshot.forEach(doc => {
             const item = { ...doc.data(), id: doc.id };
-            const card = criarCard(item);
-            if (item.tipo === 'livro') {
-                listaLivros.innerHTML += card;
-            } else {
-                listaJogos.innerHTML += card;
-            }
-        });
-
-        // Adiciona o evento de clique nos ícones de edição
-        document.querySelectorAll('.edit-icon').forEach(icon => {
-            icon.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const id = e.currentTarget.dataset.id;
-                db.collection("itens").doc(id).get().then(doc => {
-                    abrirModal({ ...doc.data(), id: doc.id });
-                });
+            const cardElement = document.createElement('div');
+            cardElement.innerHTML = criarCardHtml(item);
+            
+            cardElement.firstElementChild.addEventListener('click', (e) => {
+                if (!e.target.closest('.edit-icon')) {
+                    abrirModalDetalhes(item);
+                }
             });
+
+            const editIcon = cardElement.querySelector('.edit-icon');
+            if (editIcon) {
+                editIcon.addEventListener('click', () => abrirModalEdicao(item));
+            }
+
+            if (item.tipo === 'livro') listaLivros.appendChild(cardElement);
+            else listaJogos.appendChild(cardElement);
         });
+    }, error => {
+        console.error("Erro ao carregar itens:", error);
+        listaLivros.innerHTML = '<p>Erro ao carregar a lista.</p>';
+        listaJogos.innerHTML = '<p>Erro ao carregar a lista.</p>';
     });
 }
 
-function criarCard(item) {
-    const notaEstrelas = '⭐'.repeat(parseInt(item.nota)) + '☆'.repeat(5 - parseInt(item.nota));
-    const editIcon = currentUser ? `<div class="edit-icon" data-id="${item.id}">✏️</div>` : '';
-
+function criarCardHtml(item) {
+    const editIcon = currentUser ? '<div class="edit-icon"><i class="fa-solid fa-pencil"></i></div>' : '';
     return `
-        <div class="card-midia">
-            ${editIcon}
+        <article class="card-midia">
             <img src="${item.imagem}" alt="Capa de ${item.titulo}">
-            <div class="info">
-                <h3>${item.titulo}</h3>
+            ${editIcon}
+            <div class="card-info">
+                <h4>${item.titulo}</h4>
                 <p>${item.autor_plataforma}</p>
-                <p class="nota" title="${item.nota} de 5 estrelas">${notaEstrelas}</p>
+            </div>
+            <div class="card-footer">
+                <span class="nota">${formatarEstrelas(item.nota)}</span>
                 <span class="status">${item.status}</span>
             </div>
-        </div>
+        </article>
     `;
 }
 
-// 2. CREATE / UPDATE (Salvar no formulário)
 itemForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!currentUser) return;
     const id = document.getElementById('item-id').value;
     const itemData = {
         tipo: document.getElementById('item-tipo').value,
+        status: document.getElementById('item-status').value,
         titulo: document.getElementById('item-titulo').value,
         autor_plataforma: document.getElementById('item-autor-plataforma').value,
         genero: document.getElementById('item-genero').value,
-        imagem: document.getElementById('item-imagem').value,
-        status: document.getElementById('item-status').value,
         nota: document.getElementById('item-nota').value,
+        imagem: document.getElementById('item-imagem').value,
         review: document.getElementById('item-review').value
     };
 
     if (id) {
-        // Atualizar item existente
-        db.collection("itens").doc(id).update(itemData)
-            .then(() => fecharModal())
-            .catch(err => console.error("Erro ao atualizar: ", err));
+        db.collection("itens").doc(id).update(itemData).then(() => fecharModal(itemModal));
     } else {
-        // Adicionar novo item
-        db.collection("itens").add(itemData)
-            .then(() => fecharModal())
-            .catch(err => console.error("Erro ao adicionar: ", err));
+        db.collection("itens").add(itemData).then(() => fecharModal(itemModal));
     }
 });
 
-// 3. DELETE (Deletar no formulário)
-deleteBtn.addEventListener('click', () => {
+document.getElementById('delete-btn').addEventListener('click', () => {
     const id = document.getElementById('item-id').value;
-    if (confirm("Tem certeza que deseja deletar este item? Esta ação não pode ser desfeita.")) {
-        db.collection("itens").doc(id).delete()
-            .then(() => fecharModal())
-            .catch(err => console.error("Erro ao deletar: ", err));
+    if (confirm("Tem certeza que deseja deletar este item?")) {
+        db.collection("itens").doc(id).delete().then(() => fecharModal(itemModal));
     }
 });
-
-// Carrega os itens iniciais quando a página abre
-carregarItens();
